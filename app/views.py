@@ -100,8 +100,28 @@ def host_manage():
 @app.route('/cat_manage', methods=['GET', 'POST'])
 @login_required
 def cat_manage():
-    cats = Category.query.order_by('cat_name').all()
+    page = request.args.get('page', 1, type=int)
+    q = request.args.get('q', None)
     form = CatAddForm()
+    if q is not None:
+        pagination = Category.query.filter(
+            or_(
+                Category.cat_name.like("%" + q + "%"),
+                Category.id.like("%" + q + "%"),
+            )
+        ).paginate(
+            page,
+            per_page=10,
+            error_out=False)
+        cats = pagination.items
+        return render_template('cat_manage.html', cats=cats, form=form, pagination=pagination)
+
+    pagination = Category.query.order_by('start_time').paginate(
+        page,
+        per_page=10,
+        error_out=False
+    )
+    cats = pagination.items
     if request.method == 'POST':
         if form.validate_on_submit():
             cat = Category.query.filter_by(cat_name=form.cat_name.data).first()

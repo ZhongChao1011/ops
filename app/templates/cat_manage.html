@@ -3,15 +3,18 @@
     {# 搜索框 #}
     <div class="row">
         <div class="col-md-4">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="请输入项目或者项目ID...">
-              <span class="input-group-btn">
-                <button class="btn btn-success" type="button">搜索</button>
-              </span>
-            </div>
+            <form action="" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="q" placeholder="请输入项目或者项目ID...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="submit">搜索</button>
+                    </span>
+                </div>
+            </form>
         </div>
 
-        {# 添加主机 #}
+
+        {# 添加项目 #}
         <div class="container-fluid" style="float: right">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#catAddModal">添加项目</button>
             <div class="modal fade" id="catAddModal" tabindex="-1" role="dialog" aria-labelledby="catAddModal">
@@ -57,7 +60,7 @@
                 {% for cat in cats %}
                     <tr>
                         <td>{{ cat.cat_name }}</td>
-                         <td>{{ cat.id }}</td>
+                        <td>{{ cat.id }}</td>
                         <td>{{ cat.start_time }}</td>
                         <td><a class="btn btn-primary btn-sm">详情</a></td>
                     </tr>
