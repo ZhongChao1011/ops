@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    {# 导航栏 #}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <a href="{{ url_for('index') }}" class="navbar-brand">Gemstone Ops</a>
+        <div class="container col-md-offset-2">
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                    <li><a href="">{{ current_user.username }}</a></li>
+                    <li><a href="{{ url_for('logout') }}">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">登录</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {# 左侧导航 #}
+    <div class="container col-md-2" style="padding-top: 70px;">
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" class="active"><a href="#">仪表盘</a></li>
+          <li role="presentation"><a href="{{ url_for('host_manage') }}">主机管理</a></li>
+          <li role="presentation"><a href="{{ url_for('cat_manage') }}">项目管理</a></li>
+        </ul>
+    </div>
+    <div class="container col-md-10" style="padding-top: 70px;">
+
+    {# 消息闪现 #}
+    {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ message[0] }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message[1] }}
+        </div>
+    {% endfor %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  </body>
+</html>

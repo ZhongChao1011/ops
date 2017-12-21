@@ -1,0 +1,36 @@
+<head>
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <style>
+        body{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 180px;
+            width: 20em;
+        }
+    </style>
+</head>
+
+<body>
+    {# 消息闪现 #}
+    {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ message[0] }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message[1] }}
+        </div>
+    {% endfor %}
+    <div class="control">
+        <h1 class="text-center"><strong>Gemstone Ops</strong></h1>
+        <br>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group required">
+                {{ form.username(class="form-control", required=True, placeholder="用户名") }}
+            </div>
+            <div class="form-group required">
+                {{ form.password(class="form-control", required=True, placeholder="密    码") }}
+            </div>
+            <br>
+            {{ form.submit(class="btn btn-primary", style="width: 280px;") }}
+        </form>
+    </div>
+</body>
